@@ -113,13 +113,11 @@ int process_flag(va_list arg, char flag){
         case 's':
             str = va_arg(arg, char*);
             my_putstr(str);
-            return sizeof(str);
             break;
          //processes characters %c
         case 'c':
             c = (char) va_arg(arg, int);
             my_putchar(c);
-            return sizeof(c);
             break;
         //processes double %d
         case 'd':
@@ -127,7 +125,6 @@ int process_flag(va_list arg, char flag){
             char* s = (char*) malloc(sizeof(j) * sizeof(char*));
             s = toString(j, s, 10);
             my_putstr(s);
-            return sizeof(s);
             break;
         //to process octal numbers
         case 'o':
@@ -135,7 +132,6 @@ int process_flag(va_list arg, char flag){
             s = (char*) malloc(sizeof(j) * sizeof(char*));
             s = toString(j, s, 8);
             my_putstr(s);
-            return sizeof(s);
             break;
         //handle unsigned integers
         case 'u':
@@ -144,7 +140,6 @@ int process_flag(va_list arg, char flag){
             s = (char*) malloc(sizeof(u) * sizeof(char*));
             s = toString(u, s, 10);
             my_putstr(s);
-            return sizeof(s);
             break;
         //handle hex numbers %x
         case 'x':
@@ -153,20 +148,30 @@ int process_flag(va_list arg, char flag){
             s = toString(j, s, 16);
             s = my_downcase(s);
             my_putstr(s);
-            return sizeof(s);
+            break;
         //handle hex numbers %X
         case 'X':
             j = va_arg(arg, int);
             s = (char*) malloc(sizeof(char) * sizeof(j));
             s = toString(j, s, 16);
             my_putstr(s);
-            return sizeof(s);
             break;
         //handle floating point numbers
         case 'f': 
             g = va_arg(arg, double);
             print_float(g);
             return sizeof(s);
+            break;
+        //to handle wrong input
+        case 'p':
+            j = va_arg(arg, int);
+            //a = &j;            
+            //my_putstr(a);
+            break;
+
+        default:
+            my_putstr("Wrong input");
+            return 1;
 
     } 
 
@@ -198,13 +203,13 @@ int my_printf(char *format, ...){
     }
     va_end(args);
 
-    return *format;
+    return sizeof(format);
 }
 
 int main(){
         my_printf("Hello world!\n");
         my_printf("%c!\n", 'H');
         my_printf("%c%c%c%c%c!\n", 'H', 'e', 'l', 'l', 'o');
-        my_printf("%f!\n", 89.90);
+        my_printf("%g!\n", 89.90);
     return  0;
 }
